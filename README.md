@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ThumbGen
+
+An open-source, node-based YouTube thumbnail generator built on an infinite canvas. Connect face references, style references, and text prompts to AI models (Google Gemini and Ideogram v3) to generate thumbnails.
+
+## How It Works
+
+ThumbGen uses a visual node editor where you wire together inputs and AI models:
+
+1. **Face Reference** - Upload a photo of the person who should appear in the thumbnail
+2. **Swipe File / Reference Thumbnail** - Upload or import a thumbnail whose style/composition you want to match
+3. **Text Prompt** - Optionally describe customizations (change text, colors, background, etc.)
+4. **Generator** - Pick Nano Banana (Gemini) or Ideogram v3, connect your inputs, and hit Run
+
+The system automatically constructs the right prompts and API calls. When both a face and reference thumbnail are connected, it tells the AI: "Recreate this thumbnail's style but with this person's face." No prompt engineering needed.
+
+### Node Types
+
+| Node | Purpose |
+|------|---------|
+| **Face Reference** | Upload a face photo. Connected to a generator's "Face" input. |
+| **Swipe File** | Upload or import a reference thumbnail. Connected to "Reference" input. |
+| **Prompt** | Write a text prompt and/or negative prompt. Connected to "Prompt" input. |
+| **Generator** | Runs the AI model. Has three input handles (Prompt, Face, Reference) and one output (Result). |
+| **Preview** | Displays the generated thumbnail. Download or iterate. |
+
+### Workflow Example
+
+```
+[Face Photo] ----\
+                  \
+[Reference Thumb] --> [Generator (Nano Banana)] --> [Preview] --> Download
+                  /
+[Text Prompt] ---/
+```
+
+## Features
+
+- Infinite canvas with pan, zoom, snap-to-grid
+- Drag-and-drop or click-to-add node creation
+- Edge-drop menu: drag from a handle to empty space to create a connected node
+- Swipe file panel: import thumbnails from Notion or YouTube playlists
+- Two AI models: Google Gemini (Nano Banana Pro 2) and Ideogram v3
+- Undo/redo with Cmd+Z / Cmd+Shift+Z
+- Right-click context menu for quick node creation
+- Auto-save to Cloudflare D1 (optional)
+- Image storage via Cloudflare R2 (optional)
+- Simple password gate (optional)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A Google Gemini API key and/or an Ideogram API key
+
+### Setup
 
 ```bash
+# Clone the repo
+git clone https://github.com/pat-pivot/thumbgen.git
+cd thumbgen
+
+# Install dependencies
+npm install
+
+# Copy the example env and add your API keys
+cp .env.example .env.local
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example` for all available configuration. Only `GEMINI_API_KEY` or `IDEOGRAM_API_KEY` is required to start generating.
 
-## Learn More
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GEMINI_API_KEY` | Yes* | Google Gemini API key ([get one](https://aistudio.google.com/apikey)) |
+| `IDEOGRAM_API_KEY` | Yes* | Ideogram v3 API key ([get one](https://ideogram.ai/manage-api)) |
+| `NOTION_API_KEY` | No | Import swipe files from Notion |
+| `YOUTUBE_API_KEY` | No | Import thumbnails from a YouTube playlist |
+| `SITE_PASSWORD` | No | Simple auth gate |
+| `R2_*` | No | Cloudflare R2 for persistent image storage |
+| `D1_DATABASE_ID` | No | Cloudflare D1 for persistent project storage |
 
-To learn more about Next.js, take a look at the following resources:
+*At least one model API key is required.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Deploy to Cloudflare
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Build and deploy
+npm run deploy
+```
 
-## Deploy on Vercel
+Requires [Wrangler](https://developers.cloudflare.com/workers/wrangler/) to be authenticated. Environment variables should be set as secrets in your Cloudflare dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 16** (App Router)
+- **React 19**
+- **@xyflow/react** - Infinite canvas / node editor
+- **Zustand** - State management
+- **Tailwind CSS v4** - Styling
+- **OpenNextJS + Cloudflare Workers** - Deployment
+- **Cloudflare R2** - Image storage (optional)
+- **Cloudflare D1** - Project persistence (optional)
+
+## Importing a Swipe File from Notion
+
+1. Create a Notion integration at [notion.so/profile/integrations](https://www.notion.so/profile/integrations)
+2. Share your thumbnail database with the integration
+3. Add your `NOTION_API_KEY` to `.env.local`
+4. The swipe file panel will load your thumbnails automatically
+
+## License
+
+MIT

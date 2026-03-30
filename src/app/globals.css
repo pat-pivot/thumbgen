@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --canvas-bg: #0E0E13;
+  --node-bg: #212126;
+  --node-bg-hover: #2a2a30;
+  --surface: #353539;
+  --accent: #6EDDB3;
+  --accent-yellow: #F7FFA8;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-tertiary: rgba(255, 255, 255, 0.64);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --handle-size: 20px;
+  --node-radius: 16px;
+  --node-width: 460px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas-bg);
+  color: var(--text-primary);
+  font-family: 'DM Sans', system-ui, -apple-system, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* React Flow overrides */
+.react-flow__node {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.react-flow__node.selected {
+  box-shadow: none !important;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+/* Handles - always visible, Weavy style */
+.react-flow__handle {
+  width: var(--handle-size) !important;
+  height: var(--handle-size) !important;
+  border-radius: 100% !important;
+  background: var(--accent) !important;
+  border: 5px solid var(--node-bg) !important;
+  opacity: 1 !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: crosshair !important;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(110, 221, 179, 0.4);
+}
+
+/* Handle labels */
+.handle-label {
+  position: absolute;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.handle-label-left {
+  right: calc(100% + 6px);
+}
+
+.handle-label-right {
+  left: calc(100% + 6px);
+}
+
+/* Custom edge styles */
+.react-flow__edge-interaction {
+  stroke-width: 40px;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+/* Controls - hidden, we use our own zoom bar */
+.react-flow__controls {
+  display: none !important;
+}
+
+.react-flow__minimap {
+  display: none !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Node selection highlight */
+.react-flow__node.selected .node-card {
+  border-color: var(--accent) !important;
 }

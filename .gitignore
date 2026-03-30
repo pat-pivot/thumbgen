@@ -20,6 +20,10 @@
 # production
 /build
 
+# cloudflare / opennext build output (contains embedded env vars)
+/.open-next/
+.wrangler/
+
 # misc
 .DS_Store
 *.pem
