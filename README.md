@@ -4,7 +4,7 @@ An open-source, node-based YouTube thumbnail generator built on an infinite canv
 
 ## Demo
 
-<video src="https://github.com/pat-pivot/thumbgen/raw/main/demo.mp4" controls width="100%"></video>
+https://github.com/pat-pivot/thumbgen/releases/download/v1.0.0/demo.mp4
 
 ## How It Works
 
