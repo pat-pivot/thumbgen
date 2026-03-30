@@ -4,7 +4,7 @@ An open-source, node-based YouTube thumbnail generator built on an infinite canv
 
 ## Demo
 
-[![Watch the demo](https://cdn.loom.com/sessions/thumbnails/d96243bb1d6e45c4a71c222ce1dd082d-with-play.gif)](https://www.loom.com/share/d96243bb1d6e45c4a71c222ce1dd082d)
+![ThumbGen Demo](demo.gif)
 
 ## How It Works
 
