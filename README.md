@@ -2,6 +2,10 @@
 
 An open-source, node-based YouTube thumbnail generator built on an infinite canvas. Connect face references, style references, and text prompts to AI models (Google Gemini and Ideogram v3) to generate thumbnails.
 
+## Demo
+
+<video src="https://github.com/pat-pivot/thumbgen/raw/main/demo.mp4" controls width="100%"></video>
+
 ## How It Works
 
 ThumbGen uses a visual node editor where you wire together inputs and AI models:
